@@ -1,4 +1,4 @@
-# HRM PRO - Système de Gestion des Ressources Humaines
+# HRM PRO - Système Intelligent de Gestion RH
 
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-8.0-512bd4)
 ![Entity Framework](https://img.shields.io/badge/EF%20Core-8.0-6c3385)
