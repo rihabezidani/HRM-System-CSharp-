@@ -8,29 +8,29 @@
 
 ---
 
-## 🚀 Fonctionnalités Clés
+##  Fonctionnalités Clés
 
-### 📊 Tableau de Bord (Dashboard)
+###  Tableau de Bord (Dashboard)
 - **Indicateurs Temps Réel** : Effectif total, nombre d'absents aujourd'hui, et volume de demandes de congés à traiter.
 - **Actions Rapides** : Raccourcis ergonomiques pour ajouter un employé ou valider des absences.
 
-### 👥 Gestion des Collaborateurs
+###  Gestion des Collaborateurs
 - **Annuaire RH** : Gestion complète (CRUD) des fiches employés avec gestion des rôles (Admin/Employé).
 - **Espace Personnel** : Chaque employé peut consulter son propre profil et ses informations contractuelles.
 
-### 📅 Gestion des Congés & Absences
+###  Gestion des Congés & Absences
 - **Workflow de Validation** : Soumission par l'employé et interface de décision (Approuver/Refuser) pour l'Admin.
 - **Suivi Dynamique** : Visualisation claire des statuts des demandes.
 
-### 💰 Module de Paie Automatisé
+###  Module de Paie Automatisé
 - **Calcul Intelligent** : Génération des bulletins de paie avec déduction automatique en cas de jours de maladie ou d'absence.
 - **Historique** : Archivage des bulletins consultables et téléchargeables par les employés.
 
-### 🔔 Système de Notifications
+###  Système de Notifications
 - **Badge Dynamique** : Alerte visuelle immédiate sur la cloche pour les nouvelles demandes de congés.
 - **Gestion du statut "Lu"** : Possibilité de marquer les notifications comme lues via une interaction AJAX.
 
-### 🤖 Assistant IA (Chatbot)
+###  Assistant IA (Chatbot)
 - **Support Utilisateur** : Chatbot intégré permettant de répondre aux questions RH courantes.
 - **Interface Fluide** : Communication asynchrone sans rechargement de page pour une expérience utilisateur moderne.
 
@@ -53,3 +53,15 @@
 1. **Cloner le projet**
    ```bash
    git clone [https://github.com/ton-pseudo/syst-me_de_gestion_RH.git](https://github.com/ton-pseudo/syst-me_de_gestion_RH.git)
+2. **Configurer la base de données**
+Configurer la base de données Mettez à jour la chaîne de connexion dans appsettings.json :
+"ConnectionStrings": {
+  "DefaultConnection": "Server=VOTRE_SERVEUR;Database=HrmProDb;Trusted_Connection=True;"
+}
+3. **Migrations et Lancement**
+   Update-Database
+# Puis lancer le projet (F5 dans Visual Studio)
+## 📸 Aperçu de l'Application
+<img width="1901" height="915" alt="image" src="https://github.com/user-attachments/assets/01871a44-d09b-4246-9a40-2aeaffbe3c98" />
+
+<img width="1907" height="920" alt="image" src="https://github.com/user-attachments/assets/58aca1bd-64a0-4d04-b9bc-6c821f71fd37" />
