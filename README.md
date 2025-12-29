@@ -66,4 +66,5 @@ Configurer la base de données Mettez à jour la chaîne de connexion dans appse
 
 <img width="1907" height="920" alt="image" src="https://github.com/user-attachments/assets/58aca1bd-64a0-4d04-b9bc-6c821f71fd37" />
 ## 📂 Documentation & Présentation
-(https://www.canva.com/design/DAG8KtLTRpI/XmO3WYUGge6e15jF8VMJdQ/edit?utm_content=DAG8KtLTRpI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton))]
+
+(https://www.canva.com/design/DAG8KtLTRpI/XmO3WYUGge6e15jF8VMJdQ/edit?utm_content=DAG8KtLTRpI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
