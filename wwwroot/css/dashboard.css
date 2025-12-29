@@ -1,0 +1,166 @@
+﻿
+:root {
+    --ultra-violet: #5F4B8B; 
+    --sparkling-grape: #7D4479;
+    --mulberry: #A76B9A;
+    --jacaranda: #8B9DC3;
+    --chateau-rose: #D2738F;
+    --prism-pink: #F4A9CC;
+    --sidebar-bg: #2D2445; 
+    --bg-main: #F8F7FA;
+    --card-border: #EBE8F2;
+}
+
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-main);
+    color: #443D54;
+}
+
+.container-main {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+.sidebar {
+    width: 260px;
+    background: var(--sidebar-bg) !important;
+    color: white;
+    position: fixed;
+    height: 100vh;
+    z-index: 1000;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+}
+
+    .sidebar .logo {
+        padding: 30px 20px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        /* Ajoute un effet de dégradé au logo pour le style "Nexus" */
+        .sidebar .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(135deg, var(--prism-pink), var(--sparkling-grape));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+    .sidebar .nav-menu {
+        list-style: none;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    .sidebar .nav-link {
+        color: rgba(255, 255, 255, 0.7) !important;
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        border-radius: 10px;
+        transition: 0.2s;
+        margin-bottom: 5px;
+    }
+
+        .sidebar .nav-link i {
+            width: 25px;
+            font-size: 1.1rem;
+        }
+
+        .sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white !important;
+        }
+
+       
+        .sidebar .nav-link.active {
+            background: linear-gradient(90deg, var(--ultra-violet), var(--sparkling-grape)) !important;
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+}
+
+.header {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--card-border);
+    position: sticky;
+    top: 0;
+    z-index: 900;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    background: var(--jacaranda) !important; 
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+
+#chat-circle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--ultra-violet); 
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(95, 75, 139, 0.4);
+    z-index: 9999;
+}
+
+#chat-box {
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    border: 1px solid var(--card-border);
+}
+
+.chat-header {
+    background: var(--ultra-violet);
+    border-radius: 20px 20px 0 0;
+}
+
+.msg-bot {
+    background: white;
+    border: 1px solid var(--card-border);
+    color: #443D54;
+    border-radius: 15px 15px 15px 0;
+}
+
+.msg-user {
+    background: var(--jacaranda); 
+    color: white;
+    border-radius: 15px 15px 0 15px;
+    box-shadow: 0 4px 10px rgba(139, 157, 195, 0.2);
+}
+
+.chat-footer button {
+    color: var(--ultra-violet);
+}

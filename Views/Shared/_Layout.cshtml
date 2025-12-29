@@ -1,0 +1,388 @@
+﻿@using Microsoft.AspNetCore.Http
+@{
+    var role = Context.Session.GetString("UserRole");
+    var email = Context.Session.GetString("UserEmail") ?? "Utilisateur";
+    var initial = !string.IsNullOrEmpty(email) ? email.Substring(0, 1).ToUpper() : "U";
+}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - HRM System</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        :root {
+            --ultra-violet: #5F4B8B;
+            --sparkling-grape: #7D4479;
+            --jacaranda: #8B9DC3;
+            --prism-pink: #F4A9CC;
+            --sidebar-bg: #2D2445;
+            --bg-main: #F8F7FA;
+            --card-border: #EBE8F2;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: #443D54;
+            margin: 0;
+        }
+
+        .container-main {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 30px 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--prism-pink), var(--sparkling-grape));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 10px;
+            flex: 1;
+        }
+
+        .nav-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            padding: 15px 15px 5px;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: rgba(255,255,255,0.7) !important;
+            text-decoration: none !important;
+            border-radius: 10px;
+            margin-bottom: 2px;
+            transition: 0.2s;
+        }
+
+            .nav-link:hover {
+                background: rgba(255,255,255,0.05);
+                color: white !important;
+            }
+
+            .nav-link.active {
+                background: linear-gradient(90deg, var(--ultra-violet), var(--sparkling-grape)) !important;
+                color: white !important;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            }
+
+            .nav-link i {
+                width: 20px;
+                margin-right: 10px;
+                font-size: 1.1rem;
+            }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(15px);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 15px;
+            background: white;
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--jacaranda);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .content-padding {
+            padding: 30px;
+        }
+
+        /* NOTIFICATIONS BADGE */
+        .notif-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #FF4D4F;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: bold;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* CHATBOT */
+        #chat-circle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--ultra-violet);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(95,75,139,0.4);
+            z-index: 9999;
+        }
+
+        #chat-box {
+            display: none;
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 450px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            z-index: 9999;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .chat-header {
+            background: var(--ultra-violet);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #F9F9FB;
+        }
+
+        .msg-bot {
+            background: white;
+            padding: 10px;
+            border-radius: 15px 15px 15px 0;
+            align-self: flex-start;
+            max-width: 85%;
+            border: 1px solid var(--card-border);
+            font-size: 0.85rem;
+        }
+
+        .msg-user {
+            background: var(--jacaranda);
+            color: white;
+            padding: 10px;
+            border-radius: 15px 15px 0 15px;
+            align-self: flex-end;
+            max-width: 85%;
+            font-size: 0.85rem;
+        }
+    </style>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <div class="container-main">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
+                <span style="font-weight: 700; font-size: 1.2rem;">HRM PRO</span>
+            </div>
+
+            <nav class="nav-menu">
+                <div class="nav-section-title">Principal</div>
+                <a href="@Url.Action("Index", "Home")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
+                    <i class="fas fa-th-large"></i> <span>Tableau de bord</span>
+                </a>
+
+                @if (role == "Admin")
+                {
+                    <div class="nav-section-title">Gestion RH</div>
+                    <a href="@Url.Action("Index", "Employees")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Employees" ? "active" : "")">
+                        <i class="fas fa-user-friends"></i> <span>Collaborateurs</span>
+                    </a>
+                    <a href="@Url.Action("Index", "Conges")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Conges" ? "active" : "")">
+                        <i class="fas fa-calendar-check"></i> <span>Demandes Congés</span>
+                    </a>
+                    <div class="nav-section-title">Finance</div>
+                    @* Correction lien Paie *@
+                    <a href="@Url.Action("Index", "Paie")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Paie" ? "active" : "")">
+                        <i class="fas fa-file-invoice-dollar"></i> <span>Gestion des Paies</span>
+                    </a>
+                    <a href="@Url.Action("Rapport", "Conges")" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Rapport" ? "active" : "")">
+                        <i class="fas fa-chart-line"></i> <span>Analyses & Rapports</span>
+                    </a>
+                }
+                else
+                {
+                    <div class="nav-section-title">Mon Espace</div>
+                    <a href="@Url.Action("MonProfil", "Employees")" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "MonProfil" ? "active" : "")">
+                        <i class="fas fa-id-card"></i> <span>Ma Fiche Profil</span>
+                    </a>
+                    <a href="@Url.Action("MesConges", "Conges")" class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Conges" ? "active" : "")">
+                        <i class="fas fa-plane-departure"></i> <span>Mes Absences</span>
+                    </a>
+                    @* Correction lien Paie *@
+                    <a href="@Url.Action("MesBulletins", "Paie")" class="nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "MesBulletins" ? "active" : "")">
+                        <i class="fas fa-receipt"></i> <span>Mes Bulletins</span>
+                    </a>
+                }
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h5 style="font-weight: 700; margin: 0; color: var(--ultra-violet);">@ViewData["Title"]</h5>
+
+                <div class="d-flex align-items-center gap-3">
+                    @* APPEL DU COMPOSANT NOTIFICATION *@
+                    @await Component.InvokeAsync("NotificationBadge")
+
+                    <div class="dropdown">
+                        <div class="user-pill dropdown-toggle" data-bs-toggle="dropdown">
+                            <div class="avatar">@initial</div>
+                            <span class="d-none d-md-inline" style="font-size: 0.85rem; font-weight: 600;">@email</span>
+                        </div>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                            <li class="px-3 py-2 border-bottom small text-muted">Connecté en tant que <b>@role</b></li>
+                            <li><a class="dropdown-item py-2" href="#"><i class="fas fa-cog me-2 text-muted"></i> Paramètres</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item py-2 text-danger" href="@Url.Action("Logout", "Account")"><i class="fas fa-sign-out-alt me-2"></i> Déconnexion</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-padding">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <div id="chat-circle" onclick="toggleChat()"><i class="fas fa-robot"></i></div>
+    <div id="chat-box">
+        <div class="chat-header">
+            <span style="font-weight: 600;"><i class="fas fa-headset me-2"></i> Support HRM</span>
+            <i class="fas fa-times" style="cursor:pointer" onclick="toggleChat()"></i>
+        </div>
+        <div id="chat-body">
+            <div class="msg-bot">Bonjour ! Je suis votre assistant RH. Comment puis-je vous aider ?</div>
+        </div>
+        <div class="p-3 border-top d-flex gap-2">
+            <input type="text" id="chat-input" class="form-control form-control-sm border-0 bg-light" placeholder="Écrivez ici...">
+            <button id="btn-send-chat" class="btn btn-primary btn-sm rounded-circle"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function() {
+            var msg = '@TempData["AlertMessage"]';
+            if (msg && msg !== '') {
+                var isError = msg.toLowerCase().match(/(erreur|impossible|insuffisant|refusé)/);
+                Swal.fire({
+                    toast: true, position: 'top-end', icon: isError ? 'error' : 'success',
+                    title: msg, showConfirmButton: false, timer: 5000, timerProgressBar: true
+                });
+            }
+
+            $("#chat-input").on("keypress", function(e) { if (e.which === 13) sendMsg(); });
+            $("#btn-send-chat").on("click", function() { sendMsg(); });
+        });
+
+        function toggleChat() { $("#chat-box").fadeToggle(200).css("display", "flex"); }
+
+        function sendMsg() {
+            const input = $("#chat-input");
+            const body = $("#chat-body");
+            const msg = input.val().trim();
+            if (!msg) return;
+            body.append(`<div class="msg-user">${msg}</div>`);
+            input.val("");
+            body.scrollTop(body[0].scrollHeight);
+
+            $.post('/Chatbot/GetResponse', { message: msg }, function(d) {
+                body.append(`<div class="msg-bot">${d.reply}</div>`);
+                body.scrollTop(body[0].scrollHeight);
+            });
+        }
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

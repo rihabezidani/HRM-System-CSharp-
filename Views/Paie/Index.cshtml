@@ -1,0 +1,119 @@
+﻿@model IEnumerable<Rh.Models.BulletinPaie>
+@{
+    ViewData["Title"] = "Gestion Paie";
+}
+
+<div class="container-fluid mt-4">
+    <div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;">
+        @* Header avec titre et bouton en Ultra Violet *@
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center border-bottom">
+            <h4 class="mb-0 fw-bold" style="color: var(--ultra-violet);">Historique des Salaires</h4>
+            <button class="btn text-white shadow-sm px-4" style="background: var(--ultra-violet); border: none; border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#modalPaie">
+                <i class="fas fa-plus me-1"></i> Générer un bulletin
+            </button>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead style="background-color: #F8F7FA;">
+                        <tr>
+                            <th class="ps-4 border-0" style="color: var(--ultra-violet);">Employé</th>
+                            <th class="border-0">Période</th>
+                            <th class="border-0">Salaire Brut</th>
+                            <th class="border-0">Net à Payer</th>
+                            <th class="text-center border-0">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold" style="color: #443D54;">@item.Employe?.Nom @item.Employe?.Prenom</td>
+                                <td>
+                                    <span class="badge" style="background-color: var(--jacaranda); color: white; border-radius: 6px;">
+                                        @item.Periode
+                                    </span>
+                                </td>
+                                <td class="text-muted">@item.SalaireBrut.ToString("N2") €</td>
+                                <td class="fw-bold" style="color: var(--sparkling-grape);">@item.SalaireNet.ToString("N2") €</td>
+                                <td class="text-center">
+                                    <button onclick="window.print()" class="btn btn-sm btn-outline-custom" style="border-color: var(--ultra-violet); color: var(--ultra-violet); border-radius: 8px;">
+                                        <i class="fas fa-print"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Modal de génération de paie *@
+<div class="modal fade" id="modalPaie" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 15px; border: none; overflow: hidden;">
+            @* Header Modal avec le dégradé Pantone *@
+            <div class="modal-header text-white border-0" style="background: linear-gradient(135deg, var(--ultra-violet), var(--sparkling-grape));">
+                <h5 class="modal-title fw-bold"><i class="fas fa-calculator me-2"></i>Nouveau calcul de paie</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form asp-action="Generer" method="post">
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" style="color: var(--ultra-violet);">Sélectionner l'employé</label>
+                        <select name="employeId" class="form-select" asp-items="ViewBag.Employees" required style="border-radius: 10px;">
+                            <option value="">-- Choisir un collaborateur --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" style="color: var(--ultra-violet);">Sélectionner le mois</label>
+                        <input type="month" name="datePeriode" class="form-control" required style="border-radius: 10px;">
+                    </div>
+
+                    <div class="alert border-0 mt-4" style="background-color: #F8F7FA; border-radius: 10px;">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1" style="color: var(--jacaranda);"></i>
+                            Le calcul du net sera généré automatiquement selon les cotisations en vigueur.
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0">
+                    <button type="submit" class="btn text-white w-100 fw-bold shadow-sm" style="background: var(--ultra-violet); border: none; border-radius: 10px; padding: 12px;">
+                        Enregistrer le bulletin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    
+    .btn-outline-custom:hover {
+        background-color: var(--ultra-violet);
+        color: white !important;
+    }
+
+    
+    thead th {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        padding: 15px 10px !important;
+    }
+
+  
+    .table td {
+        padding: 15px 10px !important;
+        border-color: #F1EFF5;
+    }
+
+    
+    .table-hover tbody tr:hover {
+        background-color: rgba(95, 75, 139, 0.03);
+    }
+</style>

@@ -1,0 +1,86 @@
+﻿@model Rh.Models.Conge
+
+@{
+    ViewData["Title"] = "Demander un congé";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm border-0 mx-auto" style="max-width: 600px; border-radius: 15px; overflow: hidden;">
+        @* Header avec dégradé Pantone *@
+        <div class="card-header text-white py-3 border-0" style="background: linear-gradient(135deg, var(--ultra-violet), var(--sparkling-grape));">
+            <h4 class="mb-0 fw-bold text-center">
+                <i class="fas fa-paper-plane me-2"></i>Ma Demande de Congé
+            </h4>
+        </div>
+
+        <div class="card-body p-4">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert border-0 text-danger" style="background-color: rgba(220, 53, 69, 0.1); border-radius: 10px;">
+                    <div asp-validation-summary="All" class="small"></div>
+                </div>
+            }
+
+            <form asp-action="Demander" method="post">
+                @* L'ID est masqué car il sera rempli par le contrôleur *@
+                <input type="hidden" asp-for="EmployeId" value="0" />
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold" style="color: var(--ultra-violet);">Date de début</label>
+                        <input asp-for="DateDebut" type="date" class="form-control custom-input" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold" style="color: var(--ultra-violet);">Date de fin</label>
+                        <input asp-for="DateFin" type="date" class="form-control custom-input" required />
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold" style="color: var(--ultra-violet);">Type de congé souhaité</label>
+                    <select asp-for="TypeConge" class="form-select custom-input">
+                        <option value="Annuel">Annuel</option>
+                        <option value="Maladie">Maladie (justificatif requis)</option>
+                        <option value="Exceptionnel">Congé Exceptionnel</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold" style="color: var(--ultra-violet);">Motif / Commentaire <span class="text-muted fw-normal">(Optionnel)</span></label>
+                    <textarea asp-for="Motif" class="form-control custom-input" rows="3" placeholder="Expliquez brièvement votre demande..."></textarea>
+                </div>
+
+                <div class="d-grid gap-2 pt-2">
+                    <button type="submit" class="btn text-white fw-bold shadow-sm py-2" style="background-color: var(--ultra-violet); border: none; border-radius: 10px;">
+                        Envoyer la demande
+                    </button>
+                    <a asp-action="MesConges" class="btn btn-link text-decoration-none mt-1" style="color: var(--jacaranda);">
+                        <i class="fas fa-arrow-left me-1"></i> Annuler et revenir
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    
+    .custom-input {
+        border: 1.5px solid #F1EFF5;
+        border-radius: 10px;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
+    }
+
+        .custom-input:focus {
+            border-color: var(--jacaranda);
+            box-shadow: 0 0 0 0.25rem rgba(95, 75, 139, 0.1);
+            outline: none;
+        }
+
+   
+    .btn:hover {
+        filter: brightness(110%);
+        transform: translateY(-1px);
+    }
+</style>

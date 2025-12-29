@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Rh.Models.BulletinPaie>
+@{
+    ViewData["Title"] = "Mes Salaires";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    @* Utilisation de Ultra Violet pour le titre et l'icône *@
+    <h2 class="fw-bold" style="color: var(--ultra-violet);">
+        <i class="fas fa-wallet me-2"></i>Mes Bulletins de Paie
+    </h2>
+</div>
+
+<div class="card shadow-sm border-0" style="border-radius: 15px; overflow: hidden;">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                @* En-tête avec fond gris très léger type Image 6 *@
+                <thead style="background-color: #F8F7FA;">
+                    <tr>
+                        <th class="ps-4 border-0" style="color: var(--ultra-violet); padding: 15px 10px;">Période</th>
+                        <th class="border-0" style="padding: 15px 10px;">Date d'émission</th>
+                        <th class="text-end border-0" style="padding: 15px 10px;">Montant Net</th>
+                        <th class="text-end pe-4 border-0" style="padding: 15px 10px;">Fiche</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            @* Période en Ultra Violet *@
+                            <td class="ps-4 fw-bold" style="color: var(--ultra-violet);">@item.Periode</td>
+
+                            <td class="text-muted">@item.DateCreation.ToShortDateString()</td>
+
+                            @* Montant en Sparkling Grape (plus élégant que le vert standard) *@
+                            <td class="text-end fw-bold" style="color: var(--sparkling-grape);">
+                                @item.SalaireNet.ToString("N2") €
+                            </td>
+
+                            <td class="text-end pe-4">
+                                @* Bouton avec bordure Ultra Violet *@
+                                <button onclick="window.print()" class="btn btn-sm btn-outline-custom"
+                                        style="border-color: var(--ultra-violet); color: var(--ultra-violet); border-radius: 8px; padding: 5px 15px;">
+                                    <i class="fas fa-file-pdf me-1"></i> Voir
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+   
+    .table-hover tbody tr:hover {
+        background-color: rgba(95, 75, 139, 0.03);
+    }
+
+    
+    .btn-outline-custom:hover {
+        background-color: var(--ultra-violet) !important;
+        color: white !important;
+        box-shadow: 0 4px 8px rgba(95, 75, 139, 0.2);
+    }
+
+   
+    .table td {
+        border-color: #F1EFF5;
+        padding: 15px 10px !important;
+    }
+
+    thead th {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+    }
+</style>

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Rh.Models.Conge>
+@using Microsoft.AspNetCore.Http
+@{
+    var role = Context.Session.GetString("UserRole");
+}
+
+<div class="dropdown">
+    <button class="btn btn-link position-relative p-0" data-bs-toggle="dropdown">
+        <i class="fas fa-bell text-muted fs-5"></i>
+        @if (Model.Any())
+        {
+            <span class="notif-badge">@Model.Count()</span>
+        }
+    </button>
+
+    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-3 p-0" style="width: 300px; border-radius: 12px; overflow: hidden;">
+        <li class="bg-light p-3 border-bottom">
+            <h6 class="mb-0 fw-bold text-dark">Centre de Notifications</h6>
+        </li>
+        
+        <div style="max-height: 350px; overflow-y: auto;">
+            @if (!Model.Any())
+            {
+                <li class="p-4 text-center text-muted small">Aucune nouvelle notification</li>
+            }
+            else
+            {
+                @foreach (var notif in Model)
+                {
+                    <li class="p-3 border-bottom hover-bg-light">
+                        <div class="d-flex align-items-start gap-2">
+                            <div class="avatar-sm bg-primary-soft text-primary rounded-circle p-2" style="font-size: 0.7rem;">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="fw-bold small text-dark">Système HRM</span>
+                                    <span class="text-muted" style="font-size: 0.7rem;">@notif.DateDemande.ToString("dd/MM HH:mm")</span>
+                                </div>
+                                
+                                <p class="mb-0 small text-secondary" style="line-height: 1.4;">
+                                    @if (role == "Admin")
+                                    {
+                                        @* --- CE QUE LE RH VOIT --- *@
+                                        <strong>@notif.Employe?.Nom @notif.Employe?.Prenom</strong> <span>a demandé un congé du @notif.DateDebut.ToString("dd/MM/yyyy").</span>
+                                    }
+                                    else
+                                    {
+                                        @* --- CE QUE L'EMPLOYÉ VOIT --- *@
+                                        <span>Votre demande de congé du @notif.DateDebut.ToString("dd/MM/yyyy") a été <strong>@notif.Statut.ToLower()</strong>.</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+        </div>
+        
+        <li class="p-2 text-center bg-light">
+            <a href="#" class="text-primary small text-decoration-none fw-600">Tout marquer comme lu</a>
+        </li>
+    </ul>
+</div>

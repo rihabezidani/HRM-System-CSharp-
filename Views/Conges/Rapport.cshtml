@@ -1,0 +1,121 @@
+﻿@model Rh.Models.RapportViewModel
+@{
+    ViewData["Title"] = "Génération de Rapport";
+}
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold" style="color: var(--ultra-violet);">Rapport d'activité RH</h2>
+        <button onclick="window.print()" class="btn shadow-sm px-4" style="border: 1px solid var(--ultra-violet); color: var(--ultra-violet); border-radius: 10px;">
+            <i class="fas fa-print me-2"></i>Imprimer en PDF
+        </button>
+    </div>
+
+    @* Cartes de résumé rapide avec les couleurs Pantone *@
+    <div class="row mb-4 g-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm text-white p-4 h-100" style="background: linear-gradient(135deg, var(--ultra-violet), var(--sparkling-grape)); border-radius: 15px;">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h6 class="opacity-75 text-uppercase fw-bold small">Total Jours de Congés validés</h6>
+                        <h2 class="fw-bold mb-0">@Model.TotalJoursConges Jours</h2>
+                    </div>
+                    <i class="fas fa-calendar-check fa-3x opacity-25"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm text-white p-4 h-100" style="background: var(--jacaranda); border-radius: 15px;">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h6 class="opacity-75 text-uppercase fw-bold small">Effectif de l'entreprise</h6>
+                        <h2 class="fw-bold mb-0">@Model.TotalEmployes Employés</h2>
+                    </div>
+                    <i class="fas fa-users fa-3x opacity-25"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Tableau détaillé *@
+    <div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;">
+        <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 fw-bold" style="color: var(--ultra-violet);">Détails des Congés Approuvés</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead style="background-color: #F8F7FA;">
+                        <tr>
+                            <th class="ps-4 border-0" style="color: var(--ultra-violet);">Employé</th>
+                            <th class="border-0">Type</th>
+                            <th class="border-0">Période</th>
+                            <th class="text-center border-0">Durée</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CongesApprouves)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold" style="color: #443D54;">@item.Employe?.Nom @item.Employe?.Prenom</td>
+                                <td>
+                                    <span class="badge" style="background-color: rgba(95, 75, 139, 0.1); color: var(--ultra-violet); border-radius: 6px;">
+                                        @item.TypeConge
+                                    </span>
+                                </td>
+                                <td class="text-muted">Du @item.DateDebut.ToString("dd/MM/yyyy") au @item.DateFin.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center fw-bold" style="color: var(--sparkling-grape);">
+                                    @((item.DateFin - item.DateDebut).Days + 1) j
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <p class="mt-4 text-muted small text-center">Rapport officiel généré le @Model.DateGeneration.ToString("dd/MM/yyyy à HH:mm")</p>
+</div>
+
+<style>
+   
+    thead th {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        padding: 15px 10px !important;
+    }
+
+    .table td {
+        padding: 15px 10px !important;
+        border-color: #F1EFF5;
+    }
+
+    
+    @@media print {
+        .sidebar, .navbar, .btn, .no-print {
+            display: none !important;
+        }
+
+        .main-content, .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        .card {
+            box-shadow: none !important;
+            border: 1px solid #eee !important;
+        }
+
+        body {
+            background-color: white !important;
+        }
+       
+        .card[style*="background"] {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+</style>

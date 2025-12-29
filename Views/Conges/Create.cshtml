@@ -1,0 +1,91 @@
+﻿@model Rh.Models.Conge
+
+@{
+    ViewData["Title"] = "Nouvelle Absence";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm border-0 mx-auto" style="max-width: 600px; border-radius: 15px; overflow: hidden;">
+        @* Header avec dégradé Pantone Ultra Violet *@
+        <div class="card-header text-white py-3 border-0" style="background: linear-gradient(135deg, var(--ultra-violet), var(--sparkling-grape));">
+            <h4 class="mb-0 fw-bold text-center">
+                <i class="fas fa-calendar-plus me-2"></i>Saisie d'un Congé
+            </h4>
+        </div>
+
+        <div class="card-body p-4">
+            <form asp-action="Create" method="post">
+                @* Sélection de l'employé *@
+                <div class="mb-4">
+                    <label class="form-label fw-bold" style="color: var(--ultra-violet);">Employé concerné</label>
+                    <select asp-for="EmployeId" class="form-select custom-input" asp-items="ViewBag.EmployeId" required>
+                        <option value="">-- Choisir un collaborateur --</option>
+                    </select>
+                    <span asp-validation-for="EmployeId" class="text-danger small"></span>
+                </div>
+
+                @* Dates de début et de fin *@
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold" style="color: var(--ultra-violet);">Date de début</label>
+                        <input asp-for="DateDebut" type="date" class="form-control custom-input" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold" style="color: var(--ultra-violet);">Date de fin</label>
+                        <input asp-for="DateFin" type="date" class="form-control custom-input" required />
+                    </div>
+                </div>
+
+                @* Type de congé *@
+                <div class="mb-4">
+                    <label class="form-label fw-bold" style="color: var(--ultra-violet);">Type de congé</label>
+                    <select asp-for="TypeConge" class="form-select custom-input">
+                        <option value="Annuel">Annuel (Déduit du solde)</option>
+                        <option value="Maladie">Maladie</option>
+                        <option value="Exceptionnel">Congé Exceptionnel</option>
+                        <option value="Sans Solde">Sans Solde</option>
+                    </select>
+                </div>
+
+                @* Actions *@
+                <div class="d-grid gap-2 pt-2">
+                    <button type="submit" class="btn text-white fw-bold shadow-sm py-2" style="background-color: var(--ultra-violet); border: none; border-radius: 10px;">
+                        Valider le congé
+                    </button>
+                    <a asp-action="Index" class="btn btn-link text-decoration-none mt-1" style="color: var(--jacaranda);">
+                        <i class="fas fa-arrow-left me-1"></i> Annuler et revenir
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+   
+    .custom-input {
+        border: 1.5px solid #F1EFF5;
+        border-radius: 10px;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
+    }
+
+        .custom-input:focus {
+            border-color: var(--jacaranda);
+            box-shadow: 0 0 0 0.25rem rgba(95, 75, 139, 0.1);
+            outline: none;
+        }
+
+    
+    .btn:hover {
+        filter: brightness(110%);
+        transform: translateY(-1px);
+    }
+
+    
+    .text-danger {
+        font-size: 0.8rem;
+        margin-top: 4px;
+        display: block;
+    }
+</style>

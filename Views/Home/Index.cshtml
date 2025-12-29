@@ -1,0 +1,109 @@
+﻿@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Tableau de Bord";
+    var role = Context.Session.GetString("UserRole");
+    var userName = Context.Session.GetString("UserName") ?? "Utilisateur";
+}
+
+<style>
+   
+    .dashboard-card {
+        border-radius: 15px;
+        transition: transform 0.2s ease;
+        overflow: hidden;
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .card-icon {
+        font-size: 2.5rem;
+        position: absolute;
+        right: 15px;
+        bottom: 15px;
+        opacity: 0.2;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-2">
+        <h1 class="h3 mb-0 fw-bold" style="color: var(--ultra-violet);">Bienvenue, @userName</h1>
+        <span class="badge py-2 px-3" style="background: var(--jacaranda); color: white;">@DateTime.Now.ToString("dd MMMM yyyy")</span>
+    </div>
+
+    @if (role == "Admin")
+    {
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-white p-3 h-100 dashboard-card" style="background: var(--ultra-violet);">
+                    <div class="card-body position-relative">
+                        <div class="h3 fw-bold mb-0">@ViewBag.TotalEmployees</div>
+                        <div class="small opacity-75">Effectif Total</div>
+                        <div class="card-icon"><i class="fas fa-users"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-white p-3 h-100 dashboard-card" style="background: #7D4479;">
+                    <div class="card-body position-relative">
+                        <div class="h3 fw-bold mb-0">@ViewBag.AbsentsAujourdhui</div>
+                        <div class="small opacity-75">Absents Aujourd'hui</div>
+                        <div class="card-icon"><i class="fas fa-user-slash"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-white p-3 h-100 dashboard-card" style="background: var(--jacaranda);">
+                    <div class="card-body position-relative">
+                        <div class="h3 fw-bold mb-0">@ViewBag.EnAttente</div>
+                        <div class="small opacity-75">Demandes à Valider</div>
+                        <div class="card-icon"><i class="fas fa-clock"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-white p-3 h-100 dashboard-card" style="background: #2D2445;">
+                    <div class="card-body position-relative">
+                        <div class="h3 fw-bold mb-0">94%</div>
+                        <div class="small opacity-75">Performance RH</div>
+                        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm" style="border-radius:15px; background: white;">
+                <div class="card-body py-4">
+                    <h5 class="fw-bold mb-4" style="color: var(--ultra-violet);">Actions Rapides</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        @if (role == "Admin")
+                        {
+                            <a asp-controller="Employees" asp-action="Create" class="btn text-white px-4 shadow-sm" style="background: var(--ultra-violet); border:none; border-radius: 10px;">
+                                <i class="fas fa-user-plus me-2"></i>Ajouter un employé
+                            </a>
+                            <a asp-controller="Conges" asp-action="Index" class="btn px-4 shadow-sm" style="border: 1px solid var(--ultra-violet); color: var(--ultra-violet); border-radius: 10px;">
+                                <i class="fas fa-check-double me-2"></i>Valider les congés
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Conges" asp-action="Demander" class="btn text-white px-4 shadow-sm" style="background: var(--ultra-violet); border:none; border-radius: 10px;">
+                                <i class="fas fa-plus me-2"></i>Faire une demande
+                            </a>
+                            <a asp-controller="Employees" asp-action="MonProfil" class="btn px-4 shadow-sm" style="border: 1px solid var(--jacaranda); color: var(--jacaranda); border-radius: 10px;">
+                                <i class="fas fa-id-card me-2"></i>Mon Profil
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
