@@ -65,3 +65,5 @@ Configurer la base de données Mettez à jour la chaîne de connexion dans appse
 <img width="1901" height="915" alt="image" src="https://github.com/user-attachments/assets/01871a44-d09b-4246-9a40-2aeaffbe3c98" />
 
 <img width="1907" height="920" alt="image" src="https://github.com/user-attachments/assets/58aca1bd-64a0-4d04-b9bc-6c821f71fd37" />
+## 📂 Documentation & Présentation
+[![Consulter la présentation]([https://img.shields.io/badge/Consulter-La_Présentation_PPT-orange?style=for-the-badge&logo=microsoftpowerpoint](https://www.canva.com/design/DAG8KtLTRpI/XmO3WYUGge6e15jF8VMJdQ/edit?utm_content=DAG8KtLTRpI&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton))]
